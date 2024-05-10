@@ -1,8 +1,11 @@
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+dotenv.config()
 
 export const connectDB = async () => {
   try {
     const uri = process.env.conexion
+    console.log({ uri })
 
     if (!uri) {
       throw new Error(
@@ -13,8 +16,6 @@ export const connectDB = async () => {
     const options = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
     }
 
     const conexion = await mongoose.connect(uri, options)
