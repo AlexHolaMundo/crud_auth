@@ -81,3 +81,28 @@ export const logout = (req, res) => {
   res.cookie('token', '', { expires: new Date(0) })
   return res.sendStatus(200)
 }
+
+// Obtener usuario por cedula
+export const getUsuarioPorCedula = async (req, res) => {
+  try {
+    const { cedula } = req.params
+    const usuario = await Usuario.findOne({ cedula })
+    if (!usuario)
+      return res.status(404).json({ message: 'Usuario no encontrado' })
+
+    res.json({
+      _id: usuario._id,
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      email: usuario.email,
+      edad: usuario.edad,
+      cedula: usuario.cedula,
+      telefono: usuario.telefono,
+      direccion: usuario.direccion,
+      createdAt: usuario.createdAt,
+      updatedAt: usuario.updatedAt,
+    })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
